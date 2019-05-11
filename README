@@ -1,6 +1,2 @@
-This project will parse the lyrics of a corpu
-s of songs,
-starting with Welsh folk songs, transform
-them into root words, and result in a list
-of most-common root words from the corpus.
+This project will parse the lyrics of a corpus of songs, starting with Welsh folk songs, transform them into root words, and result in a list of most-common root words from the corpus.
 
