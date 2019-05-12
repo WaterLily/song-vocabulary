@@ -3,15 +3,11 @@ from bs4 import BeautifulSoup
 from itertools import chain
 import re
 import csv
+from constants import SCRAPE_URL, HEADERS, LYRIC_PATH, UNIQUE_WORDS_PATH
 
-# parameters for scraping lyrics
-URL = "http://meucymru.co.uk/music/Songs/Caneuon.html"
-HEADERS = {'User-agent': 'jlbot 1.0'}
-LYRIC_PATH = "./lyric_tokens.csv"
-UNIQUE_WORD_LIST_PATH = "./unique_word_list.csv"
 
 # scrape the lyrics
-def get_lyrics(url=URL, headers=HEADERS, save=True):
+def get_lyrics(url=SCRAPE_URL, headers=HEADERS, save=True):
     res = requests.get(url, headers=headers)
     assert res.status_code == 200
 
@@ -25,10 +21,14 @@ def get_lyrics(url=URL, headers=HEADERS, save=True):
                 break
             else:
                 try:
-                    curr_lyrics.append(sibling.text.lower())
+                    if sibling.text:
+                        curr_lyrics.append(sibling.text.lower())
                 except AttributeError as ae:
-                    curr_lyrics.append(sibling.lower())
-        lyrics.append(" ".join(curr_lyrics))
+                    if sibling:
+                        curr_lyrics.append(sibling.lower())
+        if curr_lyrics:
+            if " ".join(curr_lyrics).strip():
+                lyrics.append(" ".join(curr_lyrics))
 
     # tokenize the lyrics into words
     regex = r"(?<!\w['`’])([^\d\W]+)"
@@ -40,7 +40,7 @@ def get_lyrics(url=URL, headers=HEADERS, save=True):
         with open(LYRIC_PATH, "w") as out_file:
             writer = csv.writer(out_file)
             writer.writerows(tokenized_lyrics)
-        with open(UNIQUE_WORD_LIST_PATH, "w") as out_file:
+        with open(UNIQUE_WORDS_PATH, "w") as out_file:
             for word in flat_word_list:
                 out_file.write(word+"\n")
     return tokenized_lyrics, flat_word_list
