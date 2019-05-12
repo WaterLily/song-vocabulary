@@ -84,7 +84,6 @@ def process_batch(words, stem_dict):
             stem = query_stemmer(word)
             error_count = 0
             if stem:
-                stem = bytes(stem, "utf-8").decode("unicode-escape")
                 stem_dict[word] = stem
         except (AssertionError, RuntimeError):
             error_count += 1
