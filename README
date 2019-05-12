@@ -2,4 +2,6 @@ This project compiles a set of words from Welsh folk songs and calculates the fr
 
 First we parse the lyrics of a corpus of Welsh folk songs from http://www.meucymru.co.uk/music/Songs/Caneuon.html.  Then we map the words into root words using the lemmatizer API from the Welsh National Language Technologies Portal (see citation below).  Then we count how many times a form of each root word appears in each song.  The result is wesh_word_counts.csv, which can be used to derive document frequencies or overall frequencies or histograms or whatever else one is interested in.
 
+Known imperfections: the source material contains a few songs in English, as well as possible typos.  We did minimal sanitization.
+
 Jones, D. B., Robertson, P., Prys, G. (2015) Welsh language Lemmatizer API Service [http://techiaith.cymru/api/lemmatizer/?lang=en]
